@@ -18,11 +18,18 @@ function getRequestObject() {
     try {
         httpRequest = new XMLHttpRequest();
     } catch (requestError) {
+        document.getElementById("zipset").style.visibility = "visible";
         document.getElementById("csset").style.visibility = "visible";
+        var germany = document.getElementById("germany");
+        var us = document.getElementById("us");
         var zip = document.getElementById("zip").value;
         if (zip.addEventListener) {
+            germany.removeEventListener("click", checkButtons, false);
+            us.removeEventListener("click", checkButtons, false);
             zip.removeEventListener("keyup", checkInput, false);
         } else if (zip.attchEvent) {
+            germany.detachEvent("onclick", checkButtons);
+            us.detachEvent("onclick", checkButtons);
             zip.detachEvent("onkeyup", checkInput);
         }
         return false;
@@ -63,7 +70,7 @@ function getLocation() {
         httpRequest = getRequestObject();
     }
     httpRequest.abort();
-    httpRequest.open("get", "http://api.zippopotam.us/us/" + countrySel + "/" + zip, true);
+    httpRequest.open("get", "http://api.zippopotam.us/" + countrySel + "/" + zip, true);
     httpRequest.send(null);
     httpRequest.onreadystatechange = displayData;
 }
@@ -85,7 +92,7 @@ var germany = document.getElementById("germany");
 var us = document.getElementById("us");
 if(us.addEventListener) {
     germany.addEventListener("click", checkButtons, false);
-    us.addEventListener("onclick", checkButtons, false);
+    us.addEventListener("click", checkButtons, false);
 }
 else if(us.attachEvent) {
     germany.attchEvent("onclick", checkButtons);
